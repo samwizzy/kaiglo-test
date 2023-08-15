@@ -1,0 +1,20 @@
+version: "3.9"
+debug1: channel 0: free: client-session, nchannels 1
+services:
+ # Kg Frontend Angular Buy on Kiaglo
+  kg-frontend-buy:
+    image: ***/stage-kg-frontend-buy:${GIT_PR_SHA_SHORT}
+    container_name: kg-frontend-buy
+    restart: unless-stopped
+    ports: 
+      # - '4000:4000'
+      - '10500:4000'
+    networks: 
+      - frontend-net
+
+   
+networks: 
+  frontend-net:
+    name: kg-02-net
+    driver: bridge
+  
