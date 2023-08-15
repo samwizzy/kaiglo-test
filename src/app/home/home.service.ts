@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Product, Recommendations } from '../models/product';
-import { NewArrivalsResponse } from '../models/homepage';
+import { NewArrivalsResponse, SlidersResponse } from '../models/homepage';
 import { KaigloResponse, KaigloResponseSales } from '../models/kaiglo-response';
 
 @Injectable({
@@ -11,6 +11,12 @@ import { KaigloResponse, KaigloResponseSales } from '../models/kaiglo-response';
 })
 export class HomeService {
   constructor(private http: HttpClient) {}
+
+  fetchHomeSliders(): Observable<KaigloResponse<SlidersResponse>> {
+    return this.http.get<KaigloResponse<SlidersResponse>>(
+      `${environment.BASE_URL}/home-page/home-content-banner`
+    );
+  }
 
   getProducts(page: number): Observable<Recommendations<Product[]>> {
     return this.http.get<Recommendations<Product[]>>(

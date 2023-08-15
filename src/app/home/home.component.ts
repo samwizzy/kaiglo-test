@@ -11,6 +11,7 @@ import {
 } from 'rxjs';
 import { Product } from '../models/product';
 import { Constant } from '../enums/home';
+import { SlidersResponse } from '../models/homepage';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ import { Constant } from '../enums/home';
 export class HomeComponent implements OnInit {
   constructor(private homeService: HomeService) {}
   products!: Product[];
-  sliders!: any[];
+  slider$: Observable<SlidersResponse> = this.getHomeSliders();
   featuredProducts$: Observable<Product[]> = this.getFeaturedProducts();
   newArrivals$: Observable<Product[]> = this.getNewArrivalsProducts();
   groupBuyProducts$: Observable<Product[]> = this.fetchOnSales('GROUP_BUY');
@@ -70,5 +71,9 @@ export class HomeComponent implements OnInit {
       filter((content) => content.length > 0),
       shareReplay(1)
     );
+  }
+
+  getHomeSliders() {
+    return this.homeService.fetchHomeSliders().pipe(map((res) => res.response));
   }
 }
