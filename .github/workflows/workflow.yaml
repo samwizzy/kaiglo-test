@@ -1,0 +1,126 @@
+name: Kg-test-frontend-buy CICD
+on:
+  workflow_dispatch:
+  push:
+    branches: [ft-test-error ]
+permissions:
+  id-token: write
+  contents: read
+env:
+  GIT_PR_SHA: ${GITHUB_SHA}
+  GIT_PR_SHA_SHORT: ${GITHUB_SHA:0:10}
+jobs:
+  Build_Push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Export Commit Hash
+      run: |
+        export GIT_PR_SHA="${{ github.sha }}" >> $GITHUB_OUTPUT
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@67fbcbb121271f7775d2e7715933280b06314838
+      with:
+        role-to-assume: arn:aws:iam::597623847516:role/kg-openid-role
+        aws-region: us-east-2
+    - name: Login to Amazon ECR
+      id: login_ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - uses: actions/checkout@v3
+
+    - name: Build Staging Structure
+      if: github.ref_name  == 'ft-test-error'
+      run: |
+        cd /home/runner/work
+        mkdir config-files
+        cd config-files
+        git init
+        git remote add -f origin https://${{secrets.GH_PAT}}@github.com/kg-repoadmin/kg-iac-none-gitops-prod.git
+        git config core.sparseCheckout true
+        echo "stage_env/config-files/kg-frontend-buy/Dockerfile" >> .git/info/sparse-checkout
+        echo "stage_env/config-files/kg-frontend-buy/environment.prod.ts" >> .git/info/sparse-checkout
+        echo "stage_env/config-files/kg-frontend-buy/environment.ts" >> .git/info/sparse-checkout
+        
+        git pull origin main
+        cp stage_env/config-files/kg-frontend-buy/Dockerfile /home/runner/work/kg-frontend-buy/kg-frontend-buy/Dockerfile
+        cat /home/runner/work/kg-frontend-buy/kg-frontend-buy/Dockerfile
+        cp stage_env/config-files/kg-frontend-buy/environment.prod.ts /home/runner/work/kg-frontend-buy/kg-frontend-buy/src/environments/environment.prod.ts
+        cp stage_env/config-files/kg-frontend-buy/environment.ts /home/runner/work/kg-frontend-buy/kg-frontend-buy/src/environments/environment.ts
+
+    - name: Build, tag, and push image to Amazon ECR
+      if: github.ref_name  == 'ft-test-error'
+      env:
+        ECR_REGISTRY: ${{ steps.login_ecr.outputs.registry }}
+        ECR_REPOSITORY: stage-kg-frontend-buy
+      run: |
+          # DOCKER_BUILDKIT=1 docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.GIT_PR_SHA_SHORT }} .
+          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.GIT_PR_SHA_SHORT }}
+
+  Deploy_To_Staging:
+    name: Deploy To Staging
+    if: github.ref_name  == 'ft-test-error'
+    needs: [Build_Push]
+    runs-on: ubuntu-latest
+    env:
+      SSH_USER: "ubuntu"
+      SSH_KEY: "${{ secrets.KG_DEPLOY_KEY_STAGE }}"
+      SSH_HOST: "${{ secrets.KG_DEPLOY_SERVER_STAGE }}"
+      GIT_PR_SHA: ${{ github.sha }}
+    environment:
+      name: Staging kg-frontend-buy
+      url: https://buy.kaidev.xyz
+
+    steps:
+    - name: Configure SSH
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$SSH_KEY" > ~/.ssh/staging.key
+        chmod 600 ~/.ssh/staging.key
+        cat >>~/.ssh/config <<END
+        Host staging
+          HostName $SSH_HOST
+          User $SSH_USER
+          IdentityFile ~/.ssh/staging.key
+          StrictHostKeyChecking no
+        END
+
+    - name: Ssh to server
+      run: |
+            export GIT_PR_SHORT=$(echo ${{ github.sha }} | cut -c-10)
+            ssh -v -o StrictHostKeyChecking=no -i ~/.ssh/staging.key $SSH_USER@$SSH_HOST \
+            "
+            sudo rm -r /home/ubuntu/Tworkspace-frontend-buy
+            mkdir -p /home/ubuntu/Tworkspace-frontend-buy && cd  /home/ubuntu/Tworkspace-frontend-buy
+            git init
+            git remote add -f origin https://${{secrets.GH_PAT}}@github.com/kg-repoadmin/kg-iac-none-gitops-prod.git
+            git config core.sparseCheckout true
+            echo "stage_env/config-files/kg-frontend-buy/podman-compose-frontend-buy.yaml" >> .git/info/sparse-checkout
+            echo "stage_env/config-files/kg-frontend-buy/nginx" >> .git/info/sparse-checkout
+            git pull origin main 
+            cd stage_env/config-files/kg-frontend-buy 
+            cat podman-compose-frontend-buy.yaml
+            # echo GIT_PR_SHA_SHORT=$GIT_PR_SHORT >> .env
+            # echo GIT_PR_SHA_SHORT=$GIT_PR_SHORT 
+            # aws ecr get-login-password --region ${{ secrets.STAGE_AWS_REGION }} --profile ${{ secrets.STAGE_AWS_PROFILE }} | docker login --username AWS --password-stdin ${{ secrets.STAGE_ECR_REGISTRY }}
+            # docker-compose -f podman-compose-frontend-buy.yaml --env-file .env  up -d --force-recreate
+            # docker system prune -f 
+            # docker image prune -a -f
+            "
+
+  HealthCheck_Stage:
+    needs: [Deploy_To_Staging]
+    if: github.ref_name  == 'ft-test-error'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v3
+        with:
+          url: https://buy.kaidev.xyz
+          follow-redirect: false 
+          max-attempts: 3 
+          retry-delay: 20s 
+          retry-all: true 
+
+ 
+      
+
