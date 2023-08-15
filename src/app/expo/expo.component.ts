@@ -13,8 +13,8 @@ export class ExpoComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      details: this.fb.group({
-        firstname: [''],
+      userDetails: this.fb.group({
+        firstname: this.fb.control(''),
         lastname: [''],
         email: [''],
       }),
