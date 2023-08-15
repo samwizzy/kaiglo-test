@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
-import { forkJoin, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  filter,
+  forkJoin,
+  map,
+  of,
+  shareReplay,
+  switchMap,
+} from 'rxjs';
 import { Product } from '../models/product';
 import { Constant } from '../enums/home';
 
@@ -12,6 +20,10 @@ import { Constant } from '../enums/home';
 export class HomeComponent implements OnInit {
   constructor(private homeService: HomeService) {}
   products!: Product[];
+  sliders!: any[];
+  featuredProducts$: Observable<Product[]> = this.getFeaturedProducts();
+  newArrivals$: Observable<Product[]> = this.getNewArrivalsProducts();
+  groupBuyProducts$: Observable<Product[]> = this.fetchOnSales('GROUP_BUY');
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -38,5 +50,25 @@ export class HomeComponent implements OnInit {
         let cacheData = JSON.stringify(response);
         localStorage.setItem(Constant.HPRECO, cacheData);
       });
+  }
+
+  getFeaturedProducts() {
+    return this.homeService
+      .getFeaturedProducts()
+      .pipe(map((res) => res.content));
+  }
+
+  getNewArrivalsProducts() {
+    return this.homeService
+      .fetchNewArrivalProducts()
+      .pipe(map((res) => res.response.newArrivals));
+  }
+
+  fetchOnSales(kaigloSale: string): Observable<Product[]> {
+    return this.homeService.getOnSalesProducts(kaigloSale, 0).pipe(
+      map((res) => res.content),
+      filter((content) => content.length > 0),
+      shareReplay(1)
+    );
   }
 }
