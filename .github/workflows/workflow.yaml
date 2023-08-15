@@ -53,8 +53,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login_ecr.outputs.registry }}
         ECR_REPOSITORY: stage-kg-frontend-buy
       run: |
-          # DOCKER_BUILDKIT=1 docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.GIT_PR_SHA_SHORT }} .
-          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.GIT_PR_SHA_SHORT }}
+          DOCKER_BUILDKIT=1 docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.GIT_PR_SHA_SHORT }} .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.GIT_PR_SHA_SHORT }}
 
   Deploy_To_Staging:
     name: Deploy To Staging
@@ -99,12 +99,12 @@ jobs:
             git pull origin main 
             cd stage_env/config-files/kg-frontend-buy 
             cat podman-compose-frontend-buy.yaml
-            # echo GIT_PR_SHA_SHORT=$GIT_PR_SHORT >> .env
-            # echo GIT_PR_SHA_SHORT=$GIT_PR_SHORT 
-            # aws ecr get-login-password --region ${{ secrets.STAGE_AWS_REGION }} --profile ${{ secrets.STAGE_AWS_PROFILE }} | docker login --username AWS --password-stdin ${{ secrets.STAGE_ECR_REGISTRY }}
-            # docker-compose -f podman-compose-frontend-buy.yaml --env-file .env  up -d --force-recreate
-            # docker system prune -f 
-            # docker image prune -a -f
+            echo GIT_PR_SHA_SHORT=$GIT_PR_SHORT >> .env
+            echo GIT_PR_SHA_SHORT=$GIT_PR_SHORT 
+            aws ecr get-login-password --region ${{ secrets.STAGE_AWS_REGION }} --profile ${{ secrets.STAGE_AWS_PROFILE }} | docker login --username AWS --password-stdin ${{ secrets.STAGE_ECR_REGISTRY }}
+            docker-compose -f podman-compose-frontend-buy.yaml --env-file .env  up -d --force-recreate
+            docker system prune -f 
+            docker image prune -a -f
             "
 
   HealthCheck_Stage:
