@@ -3,7 +3,7 @@
 <div class="bg-white mb-2">
   <div class="sm:w-full max-w-6xl mx-auto px-6">
     <div class="grid grid-cols-6 gap-x-1">
-      <div class="col-span-4">
+      <div class="sm:col-span-4 col-span-6">
         <ng-container *ngIf="slider$ | async as slider">
           <swiper-container
             class="mySwiper"
@@ -29,7 +29,7 @@
         </ng-container>
       </div>
 
-      <div class="col-span-2 flex flex-col gap-y-1 h-full">
+      <div class="col-span-2 sm:flex flex-col gap-y-1 h-full hidden">
         <div class="flex-1 bg-orange-300"></div>
         <div class="flex-1 bg-purple-300"></div>
       </div>
