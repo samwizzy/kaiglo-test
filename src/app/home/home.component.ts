@@ -10,7 +10,6 @@ import {
   switchMap,
 } from 'rxjs';
 import { Product } from '../models/product';
-import { Constant } from '../enums/home';
 import { SlidersResponse } from '../models/homepage';
 
 @Component({
@@ -25,6 +24,7 @@ export class HomeComponent implements OnInit {
   featuredProducts$: Observable<Product[]> = this.getFeaturedProducts();
   newArrivals$: Observable<Product[]> = this.getNewArrivalsProducts();
   groupBuyProducts$: Observable<Product[]> = this.fetchOnSales('GROUP_BUY');
+  appDeals$: Observable<Product[]> = this.fetchOnSales('APP_ONLY_DEALS');
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -48,8 +48,6 @@ export class HomeComponent implements OnInit {
       )
       .subscribe((response) => {
         this.products = response;
-        let cacheData = JSON.stringify(response);
-        localStorage.setItem(Constant.HPRECO, cacheData);
       });
   }
 

@@ -1,12 +1,12 @@
-FROM node:16.17.1-alpine3.15 AS builder
+FROM node:18.15-alpine AS builder
 WORKDIR /kg-frontend-buy
-COPY package.json ./
+COPY package*.json ./
 
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 
 ## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
 # RUN npm install && mkdir /kg-frontend-buy && cp -R ./node_modules ./kg-frontend-buy
-RUN npm install --legacy-peer-deps 
+RUN npm install && cp -R ./node_modules ./kg-frontend-buy
 
 COPY . .
 RUN npm run build:ssr
@@ -19,11 +19,10 @@ COPY --from=builder /kg-frontend-buy/dist/kg-frontend-buyer-hub/browser /usr/sha
 RUN ls -al /usr/share/nginx/html
 
 
-FROM node:16.17.1-alpine3.15 as runner
+FROM node:14.16-alpine as runner
 WORKDIR /kg-frontend-buy
 COPY --from=builder /kg-frontend-buy/node_modules /kg-frontend-buy/node_modules
 COPY --from=builder /kg-frontend-buy/dist /kg-frontend-buy/dist
 COPY --from=builder /kg-frontend-buy/package*.json ./
-EXPOSE 4200
+EXPOSE 4300
 CMD ["npm", "run", "serve:ssr"]
-# CMD ["npm", "run", "serve"]
