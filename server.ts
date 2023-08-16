@@ -1,5 +1,5 @@
-// import 'zone.js/node';
-import 'zone.js/dist/zone-node';
+import 'zone.js/node';
+// import 'zone.js/dist/zone-node';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
