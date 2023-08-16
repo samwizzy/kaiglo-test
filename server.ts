@@ -12,7 +12,7 @@ import * as domino from 'domino';
 import { AppServerModule } from './src/main.server';
 
 const template = readFileSync(
-  join('dist/kg-frontend-buyer-hub/browser', 'index.html')
+  join('dist/kaiglo-test/browser', 'index.html')
 ).toString();
 const window = domino.createWindow(template);
 
