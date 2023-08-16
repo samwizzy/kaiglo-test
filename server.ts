@@ -1,14 +1,24 @@
-import 'zone.js/node';
+// import 'zone.js/node';
+import 'zone.js/dist/zone-node';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import 'localstorage-polyfill';
+import * as domino from 'domino';
 
 import { AppServerModule } from './src/main.server';
 
+const template = readFileSync(
+  join('dist/kg-frontend-buyer-hub/browser', 'index.html')
+).toString();
+const window = domino.createWindow(template);
+
+(global as any).window = window;
+(global as any).document = window.document;
+(global as any).scroll = window.scroll;
 global['localStorage'] = localStorage;
 
 // The Express app is exported so that it can be used by serverless Functions.

@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material/material.module';
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 
 register();
 
@@ -31,6 +32,7 @@ register();
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    provideFirebaseApp(() => initializeApp({})),
   ],
   providers: [],
   bootstrap: [AppComponent],
