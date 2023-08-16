@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Product, Recommendations } from '../models/product';
@@ -46,4 +46,6 @@ export class HomeService {
       `${environment.BASE_URL}/product/on-sale/${kaigloSale}/${page}`
     );
   }
+
+  handleCatchError(err: HttpErrorResponse) {}
 }
