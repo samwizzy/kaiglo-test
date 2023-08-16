@@ -1,0 +1,74 @@
+@use "@angular/material" as mat;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+
+@include mat.core();
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-mcgpalette0: (
+  50: #e0efe9,
+  100: #b3d7c8,
+  200: #80bda4,
+  300: #4da280,
+  400: #268e64,
+  500: #007a49,
+  600: #007242,
+  700: #006739,
+  800: #005d31,
+  900: #004a21,
+  A100: #7effaa,
+  A200: #4bff89,
+  A400: #18ff68,
+  A700: #00fd57,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+// Define a dark theme
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: mat.define-palette($md-mcgpalette0),
+      accent: mat.define-palette(mat.$orange-palette),
+    ),
+    // Only include `typography` and `density` in the default dark theme.
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+// Define a light theme
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette(mat.$indigo-palette),
+      accent: mat.define-palette(mat.$pink-palette),
+    ),
+  )
+);
+
+// Apply the dark theme by default
+@include mat.core-theme($dark-theme);
+@include mat.button-theme($dark-theme);
+@include mat.all-component-themes($dark-theme);
+
+// Apply the light theme only when the user prefers light themes.
+@media (prefers-color-scheme: light) {
+  // Use the `-color` mixins to only apply color styles without reapplying the same
+  // typography and density styles.
+  @include mat.core-color($light-theme);
+  @include mat.button-color($light-theme);
+}
