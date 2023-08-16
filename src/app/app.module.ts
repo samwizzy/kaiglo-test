@@ -12,8 +12,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material/material.module';
-import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 register();
 
@@ -33,11 +31,6 @@ register();
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    provideFirebaseApp(() => initializeApp({})),
-    NgxSkeletonLoaderModule.forRoot({
-      animation: 'pulse',
-      loadingText: 'This item is actually loading...',
-    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

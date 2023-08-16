@@ -9,16 +9,6 @@ import 'localstorage-polyfill';
 
 import { AppServerModule } from './src/main.server';
 
-// import * as domino from 'domino';
-// const template = readFileSync(
-//   join('dist/kg-frontend-buyer-hub/browser', 'index.html')
-// ).toString();
-// const window = domino.createWindow(template);
-
-// (global as any).window = window;
-// (global as any).document = window.document;
-// (global as any).scroll = window.scroll;
-
 global['localStorage'] = localStorage;
 
 // The Express app is exported so that it can be used by serverless Functions.
