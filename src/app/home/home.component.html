@@ -1,10 +1,10 @@
 <app-navbar></app-navbar>
 
 <div class="bg-white mb-2">
-  <div class="sm:w-full max-w-6xl mx-auto px-6">
+  <div class="sm:w-full max-w-6xl mx-auto px-4">
     <ng-container *ngIf="slider$ | async as slider">
-      <div class="grid grid-cols-6 gap-x-1">
-        <div class="sm:col-span-4 col-span-6">
+      <div class="flex w-full gap-x-1">
+        <div class="sm:w-3/4 w-full">
           <swiper-container
             class="mySwiper"
             pagination="true"
@@ -14,6 +14,10 @@
             centered-slides="true"
             autoplay-delay="2500"
             autoplay-disable-on-interaction="false"
+            [ngStyle]="{
+              '--swiper-navigation-color': '#008000',
+              '--swiper-pagination-color': '#008000'
+            }"
           >
             <swiper-slide *ngFor="let item of slider.homeSliders">
               <a [attr.href]="item.imageUrl" aria-label="slider" class="block">
@@ -28,7 +32,7 @@
           </swiper-container>
         </div>
 
-        <div class="col-span-2 sm:flex flex-col gap-y-1 h-full hidden">
+        <div class="w-1/4 sm:flex flex-col gap-y-1 self-stretch hidden">
           <div class="flex-1 bg-orange-300"></div>
           <div class="flex-1 bg-purple-300"></div>
         </div>
@@ -38,10 +42,10 @@
 </div>
 
 <div class="bg-white py-2">
-  <div class="sm:w-full max-w-6xl mx-auto px-6">
+  <div class="sm:w-full max-w-6xl mx-auto px-4">
     <h2 class="font-medium mb-2">Featured Products</h2>
     <ng-container *ngIf="featuredProducts$ | async as featured; else loading">
-      <div class="grid grid-cols-2 sm:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-6 sm:gap-2 gap-1">
         <app-card *ngFor="let item of featured" [item]="item"> </app-card>
       </div>
     </ng-container>
@@ -49,10 +53,10 @@
 </div>
 
 <div class="bg-white py-2">
-  <div class="sm:w-full max-w-6xl mx-auto px-6">
+  <div class="sm:w-full max-w-6xl mx-auto px-4">
     <h2 class="font-medium mb-2">New Arrivals</h2>
     <ng-container *ngIf="newArrivals$ | async as arrivals; else loading">
-      <div class="grid grid-cols-2 sm:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-6 sm:gap-2 gap-1">
         <app-card *ngFor="let item of arrivals" [item]="item"> </app-card>
       </div>
     </ng-container>
@@ -60,10 +64,10 @@
 </div>
 
 <div class="bg-white py-2">
-  <div class="sm:w-full max-w-6xl mx-auto px-6">
+  <div class="sm:w-full max-w-6xl mx-auto px-4">
     <h2 class="font-medium mb-2">App Only Deals</h2>
     <ng-container *ngIf="appDeals$ | async as appDeals; else loading">
-      <div class="grid grid-cols-2 sm:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-6 sm:gap-2 gap-1">
         <app-card *ngFor="let item of appDeals" [item]="item"> </app-card>
       </div>
     </ng-container>
@@ -71,10 +75,10 @@
 </div>
 
 <div class="bg-white py-2">
-  <div class="sm:w-full max-w-6xl mx-auto px-6">
+  <div class="sm:w-full max-w-6xl mx-auto px-4">
     <h2 class="font-medium mb-2">Group Buy Products</h2>
     <ng-container *ngIf="groupBuyProducts$ | async as groupBuy; else loading">
-      <div class="grid grid-cols-2 sm:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-6 sm:gap-2 gap-1">
         <app-card *ngFor="let item of groupBuy" [item]="item"> </app-card>
       </div>
     </ng-container>
@@ -82,10 +86,10 @@
 </div>
 
 <div class="bg-white py-2 mb-6">
-  <div class="sm:w-full max-w-6xl mx-auto px-6">
+  <div class="sm:w-full max-w-6xl mx-auto px-4">
     <h2 class="font-medium mb-2">Recommended for you</h2>
     <ng-container *ngIf="products && products.length; else loading">
-      <div class="grid grid-cols-2 sm:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-6 sm:gap-2 gap-1">
         <app-card *ngFor="let item of products" [item]="item"> </app-card>
       </div>
     </ng-container>
