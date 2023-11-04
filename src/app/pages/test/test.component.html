@@ -1,0 +1,49 @@
+<p>test works!</p>
+
+<div appExpansion>
+  <p class="title">Hello world</p>
+</div>
+
+<p class="class">Lets play</p>
+
+<div *ngIf="post$ | async as post">
+  <h4 class="font-medium">{{ post.title }}</h4>
+  <p>{{ post.body }}</p>
+</div>
+
+<button class="btn" (click)="setPostId(1)">Set Post ID</button>
+
+<hr class="my-8" />
+
+<div class="rounded border-2 border-dashed w-fit" (click)="fileUpload.click()">
+  <input
+    class="opacity-0 p-8"
+    type="file"
+    name="files"
+    multiple
+    (change)="onFileChange($event)"
+    #fileUpload
+  />
+</div>
+
+<hr class="my-8" />
+
+<div
+  #dropArea
+  class="w-40 h-40 rounded border-2 border-dashed"
+  (click)="imageUpload.click()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  <input class="hidden p-8" type="file" multiple #imageUpload />
+</div>
+
+<hr class="my-8" />
+
+<div class="form-container">
+  <mat-form-field appearance="outline">
+    <mat-label>Enter Name</mat-label>
+    <input matInput type="text" placeholder="Name" />
+  </mat-form-field>
+</div>

@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Product, Recommendations } from '../models/product';
-import { NewArrivalsResponse, SlidersResponse } from '../models/homepage';
-import { KaigloResponse, KaigloResponseSales } from '../models/kaiglo-response';
+import { Product, Recommendations } from '../../models/product';
+import { NewArrivalsResponse, SlidersResponse } from '../../models/homepage';
+import {
+  KaigloResponse,
+  KaigloResponseSales,
+} from '../../models/kaiglo-response';
 
 @Injectable({
   providedIn: 'root',

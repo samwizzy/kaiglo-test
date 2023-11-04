@@ -1,0 +1,15 @@
+<p>auth works!</p>
+
+<button (click)="signInWithGoogle()">Google Login</button>
+
+<asl-google-signin-button
+  type="icon"
+  size="large"
+  shape="rectangular"
+  text="signin_with"
+  width="300"
+  theme="filled_blue"
+  logo_alignment="center"
+></asl-google-signin-button>
+
+{{ form.value | json }}

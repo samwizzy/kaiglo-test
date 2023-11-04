@@ -1,0 +1,11 @@
+.accordion-item {
+  border: 1px solid #ccc;
+  background-color: #edcfad;
+  padding: 1rem;
+  border-radius: 8px;
+
+  .accordion-body {
+    background-color: #fff;
+    padding: 0.5rem;
+  }
+}

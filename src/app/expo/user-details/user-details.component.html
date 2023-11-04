@@ -1,11 +1,25 @@
 <ng-container [formGroup]="form">
-  <div>
-    <input type="text" formControlName="firstname" placeholder="Firstname" />
-  </div>
-  <div>
-    <input type="text" formControlName="lastname" placeholder="Lastname" />
-  </div>
-  <div>
-    <input type="text" formControlName="email" placeholder="Email" />
+  <div class="w-full grid grid-cols-4 gap-4">
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        type="text"
+        formControlName="firstname"
+        placeholder="First name"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        type="text"
+        formControlName="lastname"
+        placeholder="Last name"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <input matInput type="text" formControlName="email" placeholder="Email" />
+    </mat-form-field>
   </div>
 </ng-container>

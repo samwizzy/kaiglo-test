@@ -1,0 +1,13 @@
+<div #container></div>
+
+<p>dynamic works!</p>
+
+<button mat-flat-button (click)="toggle()">Animate</button>
+
+<hr />
+
+<ng-container *ngIf="show$ | async as show">
+  <div [@slideIn]="show ? 'open' : 'close'">
+    <p>This is the content we will be animating today, stay tuned guy!</p>
+  </div>
+</ng-container>

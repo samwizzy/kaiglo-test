@@ -9,8 +9,8 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs';
-import { Product } from '../models/product';
-import { SlidersResponse } from '../models/homepage';
+import { Product } from '../../models/product';
+import { SlidersResponse } from '../../models/homepage';
 
 @Component({
   selector: 'app-home',
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
       .pipe(
         switchMap((data) => {
           let result: Product[] = [];
-          Object.values(data).map((record) => {
+          Object.values(data).forEach((record) => {
             result.push(...record.content);
           });
           return of(result);

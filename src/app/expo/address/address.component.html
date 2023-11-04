@@ -1,14 +1,21 @@
 <ng-container [formGroup]="form">
-  <div>
-    <input type="text" formControlName="number" placeholder="Street Number" />
-  </div>
-  <div>
-    <input type="text" formControlName="street" placeholder="Street" />
-  </div>
-  <div>
-    <input type="text" formControlName="state" placeholder="State" />
-  </div>
-  <div>
-    <input type="text" formControlName="country" placeholder="Country" />
+  <div class="w-full grid grid-cols-4 gap-4">
+    <mat-form-field appearance="outline">
+      <mat-label>Number</mat-label>
+      <input matInput formControlName="number" placeholder="Street Number" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Street</mat-label>
+      <input matInput formControlName="street" placeholder="Street" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="state" placeholder="State" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="country" placeholder="Country" />
+    </mat-form-field>
   </div>
 </ng-container>

@@ -1,0 +1,9 @@
+<ng-container *ngIf="item">
+  <div class="accordion-item">
+    <p (click)="toggle()">{{ item.title }}</p>
+
+    <div class="accordion-body" *ngIf="show">
+      {{ item.body }}
+    </div>
+  </div>
+</ng-container>

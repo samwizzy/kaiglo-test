@@ -1,17 +1,19 @@
-<div class="h-full col-span-3 sm:col-span-1 p-2 border rounded-md shadow-sm">
-  <div class="mb-2">
-    <img
-      [src]="item.productUrl"
-      alt="product image"
-      class="object-cover h-32 w-full"
-    />
+<ng-container *ngIf="item">
+  <div class="h-full col-span-3 sm:col-span-1 p-2 border rounded-md shadow-sm">
+    <div class="mb-2">
+      <img
+        [src]="item.productUrl"
+        alt="product image"
+        class="object-cover h-32 w-full"
+      />
+    </div>
+    <div>
+      <p class="text-sm break-words mb-2">
+        {{ item.name | slice : 0 : 40 | titlecase }}
+      </p>
+      <p class="text-sm text-gray-700">
+        ₦{{ item.productColors[0].productPriceDetails[0].price }}
+      </p>
+    </div>
   </div>
-  <div>
-    <p class="text-sm break-words mb-2">
-      {{ item.name | slice : 0 : 40 | titlecase }}
-    </p>
-    <p class="text-sm text-gray-700">
-      ₦{{ item.productColors[0].productPriceDetails[0].price }}
-    </p>
-  </div>
-</div>
+</ng-container>

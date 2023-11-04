@@ -1,11 +1,122 @@
 <div class="grid place-content-center">
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <app-user-details></app-user-details>
 
     <app-address></app-address>
+
+    <hr class="my-4 border-none" />
+
+    <ng-container
+      formArrayName="contacts"
+      *ngFor="let contact of getContacts.controls; let index = index"
+    >
+      <div [formGroupName]="index">
+        <mat-form-field class="" appearance="outline" [matBadge]="index + 1">
+          <mat-label>Contact Name</mat-label>
+
+          <input type="text" matInput formControlName="name" />
+        </mat-form-field>
+      </div>
+    </ng-container>
+
+    <hr class="my-4" />
+
+    <div class="flex justify-between gap-x-3">
+      <button
+        mat-flat-button
+        (click)="addContactForm()"
+        type="button"
+        class="bg-blue-600 text-white px-2"
+      >
+        Add contact field
+      </button>
+
+      <button
+        mat-flat-button
+        (click)="addContactForm()"
+        type="submit"
+        class="bg-gray-600 text-white px-2"
+      >
+        Submit
+      </button>
+    </div>
   </form>
 </div>
 
 <pre>
   {{ form.value | json }}
 </pre>
+
+<div
+  *ngIf="!tasks?.length"
+  class="bg-white radius-8 w-100 px-12 mt-8 mt-lg-16 pb-12"
+>
+  <ngx-skeleton-loader
+    [theme]="{
+      width: '10%',
+      borderRadius: '5px',
+      height: '10px',
+      marginTop: '20px',
+      marginBottom: '10px'
+    }"
+  >
+  </ngx-skeleton-loader>
+
+  <div class="flex w-full flex-nowrap overflow-x-auto overflow-hidden">
+    <div
+      class="cursor-pointer rounded-md grow-0 shrink-0 basis-auto relative mr-8"
+    >
+      <ngx-skeleton-loader
+        [theme]="{
+          width: '175px',
+          borderRadius: '5px',
+          height: '100px',
+          marginTop: '0px',
+          marginBottom: '10px'
+        }"
+      >
+      </ngx-skeleton-loader>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="(todos | async)?.length"
+  class="bg-white radius-8 w-100 px-12 mt-8 mt-lg-16 pb-12"
+>
+  <ngx-skeleton-loader
+    [theme]="{
+      width: '10%',
+      borderRadius: '5px',
+      height: '10px',
+      marginTop: '20px',
+      marginBottom: '10px'
+    }"
+  >
+  </ngx-skeleton-loader>
+
+  <div class="flex w-full flex-nowrap overflow-x-auto overflow-hidden">
+    <div
+      class="cursor-pointer rounded-md grow-0 shrink-0 basis-auto relative mr-8"
+    >
+      <ngx-skeleton-loader
+        [theme]="{
+          width: '175px',
+          borderRadius: '5px',
+          height: '100px',
+          marginTop: '0px',
+          marginBottom: '10px'
+        }"
+      >
+      </ngx-skeleton-loader>
+    </div>
+  </div>
+</div>
+
+<ul>
+  <li *ngFor="let todo of todos | async">{{ todo.title }}</li>
+</ul>
+
+<ul>
+  <li *ngFor="let task of tasks">{{ task.title }}</li>
+</ul>

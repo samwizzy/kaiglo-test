@@ -1,0 +1,30 @@
+<p>temp works!</p>
+
+<a routerLink="/test">Go to test</a>
+
+<div class="mb-6">
+  <button
+    class="border bg-red-600 text-white px-4 py-2 rounded-md"
+    (click)="show = !show"
+  >
+    {{ show ? "Hide" : "Show" }}
+  </button>
+</div>
+
+<img [@toggle] *ngIf="show" src="assets/images/coupon-code.png" alt="" />
+
+<div [@toggle] *ngIf="show">
+  <aside class="fixed right-0 top-0 bottom-0 w-80 bg-red-300 p-4">
+    <h2>Angular Animation</h2>
+  </aside>
+</div>
+
+<hr class="my-8" />
+
+<div class="w-full border">
+  <p class="truncate">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam rerum quis
+    libero laborum esse harum et molestias eaque voluptate numquam at corporis,
+    quas est vero necessitatibus doloribus vitae ipsam nisi!
+  </p>
+</div>
